@@ -54,8 +54,10 @@ class PetitionController extends Controller
             ]);
 
             if ($request->hasFile('image')) {
-                $response_file = $this->fileUpload($request, $petition->id);
+                $this->fileUpload($request, $petition->id);
             }
+
+            return response()->json(['message' => 'Petition created successfully.', 'data' => $petition], 201);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -114,6 +116,8 @@ class PetitionController extends Controller
                 'category_id' => $request->category,
                 'status' => $status,
             ]);
+
+            return response()->json(['message' => 'Petition updated successfully.', 'data' => $petition], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -134,6 +138,7 @@ class PetitionController extends Controller
 
 
         $petition->delete();
+        return response()->json(['message' => 'Petition deleted successfully.']);
     }
 
     public function sign(Request $request, Petition $petition){
@@ -159,6 +164,7 @@ class PetitionController extends Controller
                 $petition->signers = $petition->signers()->count();
                 $petition->save();
             }
+            return response()->json(['message' => 'Petition signed successfully.']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

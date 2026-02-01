@@ -27,8 +27,8 @@ class AdminPetitionController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'destinatary' => 'required|string',
-            'signers' => 'required',
+            'destinatary' => 'required',
+            'category' => 'required',
             'image' => 'required|file|mimes:jpeg,png,jpg,svg',
         ]);
 
@@ -52,7 +52,7 @@ class AdminPetitionController extends Controller
                 ]);
 
                 if ($request->hasFile('image')) {
-                    $response_file = $this->fileUpload($request, $petition->id);
+                    $this->fileUpload($request, $petition->id);
                 }
 
                 return response()->json(['message' => 'Petition created successfully.', 'data' => $petition->load('categories')], 201);
@@ -62,13 +62,12 @@ class AdminPetitionController extends Controller
         }
     }
 
-    public function update(Request $request, Petition $petition)
-    {
+    public function update(Request $request, Petition $petition){
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'destinatary' => 'required|string',
-            'signers' => 'required',
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'destinatary' => 'required',
+            'category' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -76,9 +75,6 @@ class AdminPetitionController extends Controller
         }
 
         try {
-            if ($request->hasFile('image')) {
-                $response_file = $this->fileUpload($request, $petition->id);
-            }
             $oldFile = File::where('petition_id', $petition->id)->first();
 
             if ($request->hasFile('image')) {
@@ -97,15 +93,15 @@ class AdminPetitionController extends Controller
                 $newName = time() . '_' . $image->getClientOriginalName();
                 $destination = 'assets/images/petitions/';
                 $image->move(public_path($destination), $newName);
+
+                File::create([
+                    'name' => $newName,
+                    'file_path' => $newName,
+                    'petition_id' => $petition->id
+                ]);
             }
-            File::create([
-                'name' => $newName,
-                'file_path' => $newName,
-                'petition_id' => $petition->id
-            ]);
 
-
-            if (!$request->has('status')) {
+            if (!$request->has('status')){
                 $status = $petition->status;
             } else {
                 $status = $request->get('status');
@@ -119,8 +115,7 @@ class AdminPetitionController extends Controller
                 'status' => $status,
             ]);
 
-            return response()->json(['message' => 'Petition updated successfully.', 'data' => $petition->load('categories')], 200);
-
+            return response()->json(['message' => 'Petition updated successfully.', 'data' => $petition], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -140,6 +135,7 @@ class AdminPetitionController extends Controller
         }
 
         $petition->save();
+        response()->json(['message' => 'Petition status changed successfully.' , 'data' => $petition]);
     }
 
     private function fileUpload(Request $request, $id)
