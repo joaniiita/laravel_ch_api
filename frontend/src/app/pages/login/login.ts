@@ -1,0 +1,29 @@
+import { Component } from '@angular/core';
+import {AuthService} from '../../auth/auth';
+import {Router} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  imports: [
+    FormsModule
+  ],
+  templateUrl: './login.html',
+  styleUrl: './login.css',
+})
+export class Login {
+  email = '';
+  password = '';
+  constructor(private auth: AuthService, private router: Router) {}
+  login() {
+    this.auth.login({ email: this.email, password: this.password })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/profile']);
+        },
+        error: err => {
+          console.error('LOGIN ERROR', err);
+        }
+      });
+  }
+}
