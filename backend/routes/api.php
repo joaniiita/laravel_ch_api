@@ -17,7 +17,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
     Route::get('categories', [AdminCategoryController::class, 'index']);
     Route::get('category/{category}', [AdminCategoryController::class, 'show']);
     Route::post('category', [AdminCategoryController::class, 'create']);
@@ -35,7 +35,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('petition/{petition}/sign', [PetitionController::class, 'sign']);
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
     Route::get('petitions', [AdminPetitionController::class, 'index']);
     Route::get('petition/{petition}', [AdminPetitionController::class, 'show']);
     Route::post('petition', [AdminPetitionController::class, 'create']);
