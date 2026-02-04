@@ -20,28 +20,36 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
 Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
     Route::get('categories', [AdminCategoryController::class, 'index']);
     Route::get('category/{category}', [AdminCategoryController::class, 'show']);
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
     Route::post('category', [AdminCategoryController::class, 'create']);
     Route::put('category/{category}', [AdminCategoryController::class, 'update']);
     Route::delete('category/{category}', [AdminCategoryController::class, 'destroy']);
-
 });
 
 Route::group(['middleware' => 'api'], function () {
     Route::get('petitions', [PetitionController::class, 'index']);
     Route::get('petition/{petition}', [PetitionController::class, 'show']);
+});
+
+Route::group(['middleware' => 'auth:api'], function () {
     Route::post('petition', [PetitionController::class, 'create']);
     Route::put('petition/{petition}', [PetitionController::class, 'update']);
     Route::delete('petition/{petition}', [PetitionController::class, 'destroy']);
     Route::post('petition/{petition}/sign', [PetitionController::class, 'sign']);
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
-    Route::get('petitions', [AdminPetitionController::class, 'index']);
-    Route::get('petition/{petition}', [AdminPetitionController::class, 'show']);
+Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
     Route::post('petition', [AdminPetitionController::class, 'create']);
     Route::put('petition/{petition}', [AdminPetitionController::class, 'update']);
     Route::delete('petition/{petition}', [AdminPetitionController::class, 'destroy']);
     Route::post('petition/{petition}/change', [AdminPetitionController::class, 'changeStatus']);
+});
+
+Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
+    Route::get('petitions', [AdminPetitionController::class, 'index']);
+    Route::get('petition/{petition}', [AdminPetitionController::class, 'show']);
 });
 
 //Route::middleware('admin')->controller(AdminPetitionController::class)->group(function () {
