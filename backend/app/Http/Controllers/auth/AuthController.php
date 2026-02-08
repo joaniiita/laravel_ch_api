@@ -57,7 +57,7 @@ class AuthController extends Controller
             return response()->json([
                'message' => 'error',
                'error' => 'Unauthorized. Either email or password is wrong.'
-            ]);
+            ], 401);
         }
 
         $user = Auth::user();

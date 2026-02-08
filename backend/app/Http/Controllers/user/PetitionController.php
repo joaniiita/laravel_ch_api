@@ -12,18 +12,18 @@ use Illuminate\Support\Facades\Validator;
 class PetitionController extends Controller
 {
     public function index(){
-        $petitions = Petition::all();
+        $petitions = Petition::with(['files', 'user', 'category'])->get();
         return response()->json($petitions);
     }
 
     public function show(Petition $petition){
-        return response()->json($petition);
+        return response()->json($petition->load(['files', 'user']));
     }
 
     public function listMine(){
         $id = Auth::id();
         $myPetitions = Petition::where('user_id', $id)->paginate(5);
-        return response()->json(['message' => 'Petitions fetched successfully.', 'data' => $myPetitions->load('categories')]);
+        return response()->json( $myPetitions->load(['files']));
     }
 
     public function create(Request $request){
@@ -154,20 +154,29 @@ class PetitionController extends Controller
 
         try {
             $user = Auth::user();
-            if ($user->email === $petition->email){
                 if ($petition->signers()->where('user_id', $user->id)->exists()) {
-                    return back()->withErrors(['Ya has firmado esta petición'])->withInput();
+                    return response()->json(['message' => 'You have already signed this petition.'], 400);
                 }
 
                 $petition->signers()->attach($user->id);
 
                 $petition->signers = $petition->signers()->count();
                 $petition->save();
-            }
             return response()->json(['message' => 'Petition signed successfully.']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function signedPetitions()
+    {
+        try {
+            $user = Auth::user();
+            $petitions = $user->signPetition()->get();
+        } catch (\Exception $exception) {
+           return response()->json(['error' => $exception->getMessage()], 500);
+        }
+        return response()->json($petitions->load(['files']));
     }
 
     private function fileUpload(Request $request, $id)

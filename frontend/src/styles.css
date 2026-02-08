@@ -1,1 +1,219 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-family: "Commissioner", sans-serif;
+  --font-color: #403a49;
+  --button-color: #FFDB00;
+  --button-gradient: #FFB64D;
+  --landing-shadow: #4AAEFF;
+  --lading-pill-blue-lighter: #0D4DFB;
+  --lading-pill-blue-darker: #0038bc;
+  --background-raised-color: #faf8fd;
+  --light-blue-hover: #f0f7ff;
+  --dark-grey: #403a49;
+  --light-grey: #e5e7eb;
+}
+
+body {
+  font-family: var(--font-family), serif !important;
+  color: var(--font-color) !important;
+  font-weight: bold !important;
+}
+
+.background-image {
+  background-image: url(./assets/images/background-globe-sunrise.svg) !important;
+  background-size: auto !important;
+}
+
+.title-font {
+  font-size: 5rem !important;
+}
+
+.btn-yellow {
+  background-color: var(--button-color) !important;
+  border-color: var(--button-color) !important;
+}
+
+.btn-yellow:hover {
+  background-image: linear-gradient(to left, var(--button-color), var(--button-gradient)) !important;
+}
+
+.btn-outline-dark-grey {
+  border: 1px solid var(--dark-grey) !important;
+  color: var(--dark-grey) !important;
+}
+
+.btn-outline-dark-grey:hover {
+  border: 1px solid var(--dark-grey) !important;
+  background-color: var(--light-grey) !important;
+}
+
+.btn-outline-grey:hover {
+  background-color: #f0f0f066 !important;
+}
+
+.transition {
+  transition: all ease 0.3s !important;
+}
+
+.round-img {
+  width: 200px !important;
+  height: 200px !important;
+  object-fit: cover !important;
+}
+
+.img-height {
+  height: 15rem !important;
+}
+
+.show-img-height {
+  height: 20rem !important;
+  object-fit: cover !important;
+}
+
+.margin {
+  margin-top: -1rem !important;
+}
+
+.punto {
+  font-size: 4rem !important;
+  line-height: 0 !important;
+  position: relative !important;
+  top: -4px !important;
+}
+
+.middle-width {
+  max-width: 750px !important;
+}
+
+.custom-top-left-pill {
+  top: 13rem !important;
+  right: -6rem !important;
+}
+
+.custom-top-right-pill {
+  top: 13rem !important;
+  right: 1rem !important;
+}
+
+.custom-div-four {
+  top: -6rem !important;
+  left: 3rem !important;
+}
+
+.custom-div-three {
+  top: -5rem !important;
+  right: 9rem !important;
+}
+
+.custom-div-five {
+  top: -6rem !important;
+  right: 3rem !important;
+}
+
+.custom-shadow:hover {
+  box-shadow: 0 -7px 30px 3px var(--landing-shadow) !important;
+  transition: all ease 0.3s !important;
+}
+
+.custom-shadow:hover + .custom-pill,
+.custom-shadow:hover ~ .custom-pill {
+  background-image: linear-gradient(90deg, var(--lading-pill-blue-darker) 36%, var(--lading-pill-blue-lighter)) !important;
+  transition: all ease 0.4s !important;
+  border: 1px solid var(--lading-pill-blue-lighter) !important;
+  color: white !important;
+}
+
+.bg-background {
+  background-color: var(--background-raised-color) !important;
+}
+
+.steps-container {
+  align-items: flex-start !important;
+}
+
+.step-circle {
+  width: 40px !important;
+  height: 40px !important;
+  background-color: var(--lading-pill-blue-darker) !important;
+  color: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-weight: bold !important;
+  font-size: 1.2rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.step-circle-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  position: relative !important;
+  align-items: center !important;
+}
+
+.step-line {
+  position: absolute !important;
+  width: 100% !important;
+  height: 1px !important;
+  border-top: 2px dotted #ccc !important;
+  left: 50% !important;
+  margin-left: 20px !important;
+  z-index: 1 !important;
+}
+
+.step-item:last-child .step-line {
+  display: none !important;
+}
+
+.accordion-width {
+  max-width: 600px !important;
+}
+
+.text-blue {
+  color: var(--lading-pill-blue-darker) !important;
+}
+
+.text-18px {
+  font-size: 1.125rem !important;
+}
+
+.btn-outline-dark-blue {
+  border: 1px solid var(--lading-pill-blue-darker) !important;
+  color: var(--lading-pill-blue-darker) !important;
+}
+
+.btn-outline-dark-blue:hover {
+  color: var(--lading-pill-blue-darker) !important;
+  background-color: var(--light-blue-hover) !important;
+  border: 1px solid var(--lading-pill-blue-darker) !important;
+}
+
+.text-clamp {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.text-gray {
+  color: var(--dark-grey) !important;
+}
+
+.image-profile {
+  width: 80px !important;
+  height: 56px !important;
+  object-fit: cover !important;
+}
+
+@media (max-width: 1200px) {
+  .title-font {
+    font-size: 56px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-font {
+    font-size: 44px !important;
+  }
+}

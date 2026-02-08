@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpInterceptorFn, HttpErrorResponse} from '@angular/common/http';
 
-import { inject } from '@angular/core';
-import { AuthService } from './auth';
-import { catchError, switchMap, throwError, of } from 'rxjs';
+import {inject} from '@angular/core';
+import {AuthService} from './auth';
+import {catchError, switchMap, throwError, of} from 'rxjs';
+
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const token = auth.getAccessToken();
+
   if (token) {
     req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
+      setHeaders: {Authorization: `Bearer ${token}`}
     });
   }
 
-  // if (req.url.includes('/login') || req.url.includes('/refresh') || req.url.includes('/logout')) {
-  //   return next(req); // Pasa de largo sin añadir headers ni capturar errores 401
-  // }
+  if (req.url.includes('/login') || req.url.includes('/refresh') || req.url.includes('/logout')) {
+    return next(req); // Pasa de largo sin añadir headers ni capturar errores 401
+  }
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
@@ -36,7 +38,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
           switchMap((res) => {
             const newToken = res.access_token;
             const retryReq = req.clone({
-              setHeaders: { Authorization: `Bearer ${newToken}` }
+              setHeaders: {Authorization: `Bearer ${newToken}`}
             });
             return next(retryReq);
           }),

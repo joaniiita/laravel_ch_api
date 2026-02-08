@@ -1,0 +1,185 @@
+<section class="container">
+
+  <h1 class="fw-bold mt-5">{{petition.title}}</h1>
+
+  <div class="container mt-4 px-0">
+    <div class="row ">
+
+      <div class="col-12 col-lg-7">
+
+        <img [src]="getUrl(petition.files[0].name)" class="img-fluid rounded-3  show-img-height mb-4 col-12 " alt="Kira López">
+
+        <h2 class="fw-bold fs-1">El problema</h2>
+        <div style="height: auto;" class="fw-normal">
+          <p>{{petition.description}}</p>
+
+          <div class="mt-2 mb-5">
+            <a href="#" class="text-gray text-decoration-none">
+                                <span class="me-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag" viewBox="0 0 16 16">
+                                      <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21 21 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21 21 0 0 0 14 7.655V1.222z"/>
+                                    </svg>
+                                </span>
+              <span class="text-decoration-underline">
+                                    Denunciar una violación de políticas
+                                </span>
+            </a>
+          </div>
+
+          <div class="d-flex border-top  justify-content-between align-items-center pt-3 mb-5 pb-5">
+            <div class="d-flex align-items-center row col-6">
+              <img [src]="getUserUrl(petition.user.image)" class="img-fluid rounded-circle image-profile " alt="">
+              <div class="align-items-center mt-3 col-8">
+                <h3 class="fs-5 fw-bold">{{petition.user.name}}</h3>
+                <p>Creador de la petición</p>
+              </div>
+            </div>
+            <div class="col-5">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_ZraXlpjZFOygzuwFqap5N-Dv0ZXcpiU--pH984Pw_X4jyw/viewform" class="btn btn-outline-dark-grey fw-bold">
+                Consultas de medios de comunicación
+              </a>
+            </div>
+          </div>
+
+          <div class="border-top pb-5">
+            <h2 class="mt-4 fs-2 fw-bold">Los destinarios de la petición</h2>
+            <div class="d-flex align-items-center shadow rounded-3 py-3 px-4 mt-3  row ">
+              <img src="assets/images/users/defaultProfile.jpg" class="img-fluid rounded-circle image-profile" alt="">
+              <div class="align-items-center mt-3 ms-3 col-8">
+                <a href="https://www.change.org/decision-makers/ministerio-de-educacion-cultura-y-deportes?source_location=petition_details_gamma" class="fs-5 text-gray">Ministerio de Educación, Cultura y Deportes</a>
+                <p>Gobierno de España</p>
+                <p class="rounded-pill bg-background col-6 col-lg-4 py-2 px-4">Sin respuesta</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top ">
+            <h2 class="mt-4 fs-1 fw-bold">Opiniones de firmantes</h2>
+            <h4 class="mt-3 fw-normal">Comentarios destacados</h4>
+            <div class="d-flex align-items-center rounded-3 py-3 px-4 mt-3  row border">
+              <img src="assets/images/users/defaultProfile.jpg" alt="" class="img-fluid rounded-circle image-profile" >
+              <div class="align-items-center mt-3 col-8">
+                <h3 class="fs-5"><strong>Santiago</strong>, Alcorcón</h3>
+                <p >hace 2 semanas</p>
+              </div>
+              <div class="fst-italic">
+                <p>"Sufrí amenazas, golpes insultos. Ll hablé al instituto, el instituto solo castigo con lo mínimo al agresor. Mi error fue confiar en el instituto y no haber contado en casa nada porque a día de hoy nadie se mi familia sabe q fui víctima a pesar q me amenazaron con pegarme una puñalada a la salida"</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-center rounded-3 py-3 px-4 mt-3  row border">
+              <img src="assets/images/users/defaultProfile.jpg" alt="" class="img-fluid rounded-circle image-profile" >
+              <div class="align-items-center mt-3 col-8">
+                <h3 class="fs-5"><strong>África</strong>, Alcázar de San Juan</h3>
+                <p >hace 2 semanas</p>
+              </div>
+              <div class="fst-italic">
+                <p>"Yo soy una víctima de bullying en el colegio. Conmigo no se hizo nada, NECESITO YA que se haga algo con los que lo están sufriendo ahora mismo"</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-center rounded-3 py-3 px-4 mt-3  row ">
+              <button class="btn btn-outline-dark-grey col-5 fw-bold fs-5">Ver todos los comentarios</button>
+            </div>
+          </div>
+
+          <div class="bg-background mt-5 rounded-2">
+            <div class="p-4">
+              <h3 class="mb-4">Apoya el cambio - <span class="fw-bold">Hazte socio</span></h3>
+              <p>Change.org no depende de la política ni de personas influyentes y es una plataforma gratuita en la que personas de todo el mundo pueden lograr cambios.
+                Cada día se consiguen victorias reales en causas que te interesan, gracias a que estamos financiados al 100 % por personas como tú.</p>
+              <p><strong>¿Nos apoyarás para proteger el poder de las personas para marcar la diferencia?</strong></p>
+            </div>
+            <div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-12 col-lg-4">
+
+        <div class="sticky-top shadow rounded-3 pt-3">
+
+          <div class="text-center">
+            <h2 class="fw-bold fs-1 pt-4">{{petition.signers}}</h2>
+
+            <p class="fw-normal" data-bs-toggle="collapse" href="#firmaInfo" aria-expanded="false" aria-controls="firmaInfo" style="cursor: pointer;">
+              Firmas verificadas
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+              </svg>
+            </p>
+
+            <div class="collapse" id="firmaInfo">
+              <div class="fw-normal fst-italic px-3 mb-3">
+                <p>Change.org ayuda a verificar que las firmas son de personas reales.</p>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="border-top mx-3 p-3">
+            <h3 class="fw-bold fs-4 mb-3">Firma esta petición</h3>
+            <form method="POST" [formGroup]="signForm" (ngSubmit)="onSubmit()">
+              @if (error?.error) {
+                <div class="alert alert-danger" role="alert">
+                  <p>{{error.error}}</p>
+                </div>
+              }
+              <div class="mb-3">
+                <label for="name" class="form-label fw-normal">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" formControlName="name">
+
+              </div>
+              <div class="mb-3">
+                <label for="surname" class="form-label fw-normal">Apellidos</label>
+                <input type="text" class="form-control" id="surname" name="surname" formControlName="surname">
+
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label fw-normal">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" formControlName="email">
+
+              </div>
+
+              <hr>
+
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" checked>
+                <label class="form-check-label fw-normal small" for="radio1">
+                  Quiero saber si esta petición gana y cómo puedo ayudar a otras peticiones ciudadanas
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2">
+                <label class="form-check-label fw-normal small" for="radio2">
+                  No quiero saber cómo avanza esta petición ni otras peticiones importantes
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-yellow w-100 fw-bold py-2">Firma la petición</button>
+
+              <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox3">
+                <label class="form-check-label fw-normal small" for="checkbox3">
+                  No mostrar públicamente mi firma y mi comentario en esta petición
+                </label>
+              </div>
+
+              <p class="small text-muted mt-3">
+                Procesamos tus datos personales de acuerdo con nuestra
+                <a href="#" class="text-decoration-underline">Política de privacidad</a> y
+                <a href="#" class="text-decoration-underline">Normas de uso</a>.
+              </p>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>

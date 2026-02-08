@@ -13,7 +13,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'api'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-    Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+    Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 });
 
@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('petition/{petition}', [PetitionController::class, 'update']);
     Route::delete('petition/{petition}', [PetitionController::class, 'destroy']);
     Route::post('petition/{petition}/sign', [PetitionController::class, 'sign']);
+    Route::get('mypetitions', [PetitionController::class, 'listMine']);
+    Route::get('signedPetitions', [PetitionController::class, 'signedPetitions']);
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {

@@ -1,0 +1,162 @@
+<section class="container">
+  <div class=" py-4 row gap-3 d-flex justify-content-center">
+    <h1 class="fw-bold">Demos el primer paso hacia el cambio</h1>
+    <div class="row g-2">
+      <div class="col-12 col-md-6 col-lg-4" role="button" data-bs-toggle="collapse" data-bs-target="#localForm" aria-expanded="false" aria-controls="formCollapse">
+        <button class="btn shadow w-100 py-3 ">
+                        <span class="d-flex flex-column align-items-center fw-bold fs-5 gap-3 pt-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                                <defs>
+                                    <linearGradient id="svg-stroke-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="var(--button-color)"/>
+                                        <stop offset="100%" stop-color="var(--button-gradient)"/>
+                                    </linearGradient>
+                                </defs>
+                              <path fill="url(#svg-stroke-gradient)" d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                            </svg>
+                            Local
+                        </span>
+        </button>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4" role="button" data-bs-toggle="collapse" data-bs-target="#nationalAndGlobalForm" aria-expanded="false" aria-controls="formCollapse">
+        <button class="btn shadow w-100 py-3">
+                        <span class="d-flex flex-column align-items-center fw-bold fs-5 gap-3 pt-3 ">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+                              <path fill="url(#svg-stroke-gradient)" d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+                            </svg>
+                             Nacional
+                        </span>
+        </button>
+      </div>
+
+
+      <div class="col-12 col-md-6 col-lg-4" role="button" data-bs-toggle="collapse" data-bs-target="#nationalAndGlobalForm" aria-expanded="false" aria-controls="formCollapse">
+        <button class="btn shadow w-100 py-3">
+                        <span class="d-flex flex-column align-items-center fw-bold fs-5 gap-3 pt-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
+                              <path fill="url(#svg-stroke-gradient)" d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484q-.121.12-.242.234c-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z"/>
+                            </svg>
+                            Global
+                        </span>
+        </button>
+      </div>
+    </div>
+    @if (error?.destinatary) {
+      <div class="alert alert-danger" role="alert">
+        <p>{{error?.destinatary}}</p>
+      </div>
+    } @else if (error?.title) {
+      <div class="alert alert-danger" role="alert">
+        <p>{{error?.title}}</p>
+      </div>
+    } @else if (error?.description) {
+      <div class="alert alert-danger" role="alert">
+        <p>{{error?.description}}</p>
+      </div>
+    } @else if (error?.image) {
+      <div class="alert alert-danger" role="alert">
+        <p>{{error?.image}}</p>
+      </div>
+    }  @else if (error?.category) {
+      <div class="alert alert-danger" role="alert">
+        <p>{{error?.category}}</p>
+      </div>
+    }
+
+    <div id="formsGroup">
+      <div class="collapse mt-3" id="localForm" data-bs-parent="#formsGroup">
+        <div class="card card-body">
+          <form method="POST" [formGroup]="petitionForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+            <div class="mb-3">
+              <label for="destinatary" class="form-label fs-5">Localidad para la geolocalización</label>
+              <select class="form-select" aria-label="Default select example" id="localidad" name="destinatary" formControlName="destinatary">
+                <option value="1">Logroño</option>
+                <option value="2">Haro</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="title" class="form-label fs-5">Título presentación</label>
+              <input type="text" class="form-control" id="title" required name="title" formControlName="title">
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label fs-5">Descripción presentación</label>
+              <textarea class="form-control" rows="10" id="descripcion" name="description" required formControlName="description"></textarea>
+            </div>
+
+
+            <div class="mb-3">
+              <label for="category" class="form-label fs-5">Categoría</label>
+              <select class="form-select" aria-label="Default select example" name="category" id="category" formControlName="category">
+                @for (category of categories; track category.id) {
+                  <option value="{{category.id}}">{{category.name}}</option>
+                }
+              </select>
+
+            </div>
+
+            <div class="mb-3">
+              <label for="image" class="form-label fs-5">Imagen</label>
+              <input type="file" class="form-control" id="image" name="image" required formControlName="image" (change)="onFileSelected($event)">
+            </div>
+
+            <button type="submit" class="btn btn-yellow w-100">Enviar</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse mt-3" id="nationalAndGlobalForm" data-bs-parent="#formsGroup">
+        <div class="card card-body">
+          <form>
+            <div class="mb-3">
+              <label for="tituloNat" class="form-label fs-5">Título presentación</label>
+              <input type="text" class="form-control" id="tituloNat" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="descripcionNat" class="form-label fs-5">Descripción presentación</label>
+              <textarea class="form-control" rows="10" id="descripcionNat" required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageNat" class="form-label fs-5">Imagen</label>
+              <input type="file" class="form-control" id="imageNat" required>
+            </div>
+
+            <button type="submit" class="btn btn-yellow w-100">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-background mt-2 mb-5">
+    <div class="p-5 ">
+      <h3 class="fw-bold" >Consejos</h3>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <h6 class="mt-4"><span class="me-2 text-success">✓</span>Correcto </h6>
+          <p class="bg-white fw-normal rounded-2 p-3 mt-2">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+          <p class="bg-white fw-normal rounded-2 p-3 ">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+          <p class="bg-white fw-normal rounded-2 p-3 ">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+        </div>
+        <div class="col-lg-6 col-12">
+          <h6 class="mt-4">
+                        <span class="me-2 text-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                          <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                        </svg>
+                        </span>
+            Incorrecto </h6>
+          <p class="bg-white fw-normal rounded-2 p-3 mt-2">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+          <p class="bg-white fw-normal rounded-2 p-3 ">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+          <p class="bg-white fw-normal rounded-2 p-3 ">Utiliza una imagen de una persona o un animal en primer plano que transmita emoción</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

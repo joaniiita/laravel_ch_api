@@ -1,12 +1,33 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, inject, signal} from '@angular/core';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Footer} from './components/footer/footer';
+import {CommonModule} from '@angular/common';
+import {AuthService} from './shared/auth/auth';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Footer, RouterLink, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('frontend');
+
+  protected auth = inject(AuthService);
+  private router = inject(Router);
+
+  logout() {
+    this.auth.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Error al cerrar sesión', err);
+      },
+      complete: () => {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 }
