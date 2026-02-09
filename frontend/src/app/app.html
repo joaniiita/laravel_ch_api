@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        @if (auth.isAuthenticated()) {
+        @if (auth.isLoggedIn()) {
           <li class="nav-item me-3">
             <!-- listMine -->
             <a class="nav-link text-dark" [routerLink]="['/myPetitions']">Mis peticiones</a>

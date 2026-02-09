@@ -9,49 +9,43 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const token = auth.getAccessToken();
 
+  let request = req;
+
   if (token) {
-    req = req.clone({
+    request = req.clone({
       setHeaders: {Authorization: `Bearer ${token}`}
     });
   }
 
-  if (req.url.includes('/login') || req.url.includes('/refresh') || req.url.includes('/logout')) {
-    return next(req); // Pasa de largo sin añadir headers ni capturar errores 401
-  }
-
-  return next(req).pipe(
+  return next(request).pipe(
     catchError((err: HttpErrorResponse) => {
-// CASO 1: Bucle infinito o ruta prohibida
-      if (req.url.includes('/refresh') || req.url.includes('/login')) {
-// En lugar de subscribe(), encadenamos el logout
-        return auth.logout().pipe(
-// Si el logout falla (ej. servidor caído), no nos importa,
-// capturamos ese error interno y devolvemos null para seguir
-          catchError(() => of(null)),
-// Al final, lanzamos el error original (401) para que la app reaccione
-          switchMap(() => throwError(() => err))
-        );
+
+      if (req.url.includes('/login') && err.status === 401) return throwError(() => err);
+
+      if (req.url.includes('/refresh')){
+        auth.logout();
+        return throwError(() => err);
       }
-// CASO 2: Error 401 estándar ‐> Intentar Refresh
+
       if (err.status === 401) {
         return auth.refreshToken().pipe(
-          switchMap((res) => {
-            const newToken = res.access_token;
-            const retryReq = req.clone({
-              setHeaders: {Authorization: `Bearer ${newToken}`}
+          switchMap((res : any) => {
+            localStorage.setItem('token', res.access_token);
+
+            const newReq = req.clone({
+              setHeaders: { Authorization: `Bearer ${res.access_token}`}
             });
-            return next(retryReq);
+            return next(newReq);
           }),
           catchError((refreshErr) => {
-// Si falla el refresh, hacemos logout encadenado correctamente
-            return auth.logout().pipe(
-              catchError(() => of(null)),
-              switchMap(() => throwError(() => refreshErr))
-            );
+            auth.logout();
+            return throwError(() => refreshErr);
           })
-        );
+        )
+
       }
-      return throwError(() => err);
+
+      return throwError(err);
     })
-  );
+  )
 };

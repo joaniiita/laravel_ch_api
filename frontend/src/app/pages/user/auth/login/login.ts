@@ -36,7 +36,7 @@ export class Login {
       next : () => {
         this.router.navigate(['/']);
       },
-      error : (err) => {
+      error : (err: any) => {
         this.error = err.error;
         console.log('Objeto de error capturado:', this.error);
       }

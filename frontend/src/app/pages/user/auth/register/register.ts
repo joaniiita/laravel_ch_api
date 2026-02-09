@@ -25,11 +25,12 @@ export class Register implements OnInit{
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      password_confirmation: ['', [Validators.required]]
+      password_confirmation: ['', [Validators.required] ]
     })
   }
 
   onSubmit(){
+    console.log(this.registerForm.value);
     if (this.registerForm.valid) {
       const formData = new FormData();
 
@@ -44,7 +45,8 @@ export class Register implements OnInit{
           console.log(data);
         },
         err => {
-          this.error = err.error.message;
+          this.error = err.error;
+          console.log(err);
         }
       )
     } else {
