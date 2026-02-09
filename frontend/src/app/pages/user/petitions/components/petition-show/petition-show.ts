@@ -4,14 +4,11 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {Petition} from '../../../../../models/petition';
 import {AuthService} from '../../../../../shared/auth/auth';
-import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-petition-show',
   imports: [
     ReactiveFormsModule,
-    RouterLink,
-    AsyncPipe
   ],
   templateUrl: './petition-show.html',
   styleUrl: './petition-show.css',

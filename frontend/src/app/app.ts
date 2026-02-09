@@ -17,6 +17,9 @@ export class App {
   protected auth = inject(AuthService);
   private router = inject(Router);
 
+  public isLoggedIn = this.auth.isLoggedIn;
+  public currentUser = this.auth.currentUser;
+
   logout() {
     this.auth.logout().subscribe({
       next: () => {

@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        @if (auth.isAuthenticated()) {
+        @if (isLoggedIn()) {
           <li class="nav-item me-3">
             <!-- listMine -->
             <a class="nav-link text-dark" [routerLink]="['/myPetitions']">Mis peticiones</a>
@@ -39,7 +39,7 @@
           </a>
         </li>
 
-        @if(!auth.isAuthenticated()){
+        @if(!isLoggedIn()){
           <li class="nav-item d-lg-none">
             <a class="nav-link text-dark" [routerLink]="['/login']">Entrar</a>
           </li>
@@ -58,7 +58,7 @@
           <a class="btn btn-outline-dark  border-dark fw-bold py-2 px-3" [routerLink]="['/petitionCreate']">Iniciar una petición</a>
         </li>
 
-        @if(!auth.isAuthenticated()){
+        @if(!isLoggedIn()){
           <li class="nav-item">
             <a class="nav-link text-dark" [routerLink]="['/login']">Entrar</a>
           </li>
@@ -66,7 +66,7 @@
             <a class="nav-link text-dark" [routerLink]="['/register']">Registrarse</a>
           </li>
         } @else {
-          @if((auth.user$ | async)?.is_admin  ){
+          @if(currentUser().is_admin  ){
             <li class="nav-item me-3">
               <a class="btn btn-outline-dark  border-dark fw-bold py-2 px-3" [routerLink]="['/home']" >Dashboard</a>
             </li>
