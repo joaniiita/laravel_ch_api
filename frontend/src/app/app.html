@@ -68,7 +68,7 @@
         } @else {
           @if((auth.user$ | async)?.is_admin  ){
             <li class="nav-item me-3">
-              <a class="btn btn-outline-dark  border-dark fw-bold py-2 px-3" [routerLink]="['/home']" >Dashboard</a>
+              <a class="btn btn-outline-dark  border-dark fw-bold py-2 px-3" [routerLink]="['/dashboard']" >Dashboard</a>
             </li>
           }
           <li class="nav-item">

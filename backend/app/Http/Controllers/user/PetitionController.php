@@ -31,7 +31,7 @@ class PetitionController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'destinatary' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
             'image' => 'required|file|mimes:jpeg,png,jpg,svg',
         ]);
 
@@ -46,7 +46,7 @@ class PetitionController extends Controller
                 'title' => $request->get('title'),
                 'description' => $request->get('description'),
                 'destinatary' => $request->get('destinatary'),
-                'category_id' => $request->get('category'),
+                'category_id' => $request->get('category_id'),
                 'user_id' => $user->id,
                 'signers' => 0,
                 'status' => 'pending'
@@ -69,7 +69,7 @@ class PetitionController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'destinatary' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -113,7 +113,7 @@ class PetitionController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'destinatary' => $request->destinatary,
-                'category_id' => $request->category,
+                'category_id' => $request->category_id,
                 'status' => $status,
             ]);
 

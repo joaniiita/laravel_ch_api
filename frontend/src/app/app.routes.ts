@@ -9,6 +9,8 @@ import {PetitionShow} from './pages/user/petitions/components/petition-show/peti
 import {PetitionsCreate} from './pages/user/petitions/components/petitions-create/petitions-create';
 import {MyPetitions} from './pages/user/petitions/components/my-petitions/my-petitions';
 import {SignedPetitions} from './pages/user/petitions/components/signed-petitions/signed-petitions';
+import {PetitionsUpdate} from './pages/user/petitions/components/petitions-update/petitions-update';
+import {Dashboard} from './pages/admin/dashboard/dashboard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,9 +24,10 @@ export const routes: Routes = [
   },
   { path: 'petitions', component: Petitions },
   { path: 'petition/:id', component: PetitionShow},
-  { path: 'petitionEdit/:id', component: PetitionShow, canActivate: [authGuard] },
+  { path: 'petitionEdit/:id', component: PetitionsUpdate, canActivate: [authGuard] },
   { path: 'petitionCreate', component: PetitionsCreate, canActivate: [authGuard] },
   { path: 'myPetitions', component: MyPetitions, canActivate: [authGuard]},
-  { path: 'signedPetitions', component: SignedPetitions, canActivate: [authGuard]}
+  { path: 'signedPetitions', component: SignedPetitions, canActivate: [authGuard]},
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard]}
 
 ];

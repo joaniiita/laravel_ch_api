@@ -34,7 +34,7 @@ export class PetitionsCreate {
       destinatary: ['', [Validators.required]],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      category: ['', [Validators.required]],
+      category_id: ['', [Validators.required]],
       image: ['', [Validators.required]],
       }
     );
@@ -57,7 +57,7 @@ export class PetitionsCreate {
       formData.append('destinatary', this.petitionForm.get('destinatary')?.value);
       formData.append('title', this.petitionForm.get('title')?.value);
       formData.append('description', this.petitionForm.get('description')?.value);
-      formData.append('category', this.petitionForm.get('category')?.value);
+      formData.append('category_id', this.petitionForm.get('category_id')?.value);
       // formData.append('user_id', currentUser.id.toString())
       formData.append('image', this.selectedFile, this.selectedFile.name);
 

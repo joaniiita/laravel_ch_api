@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, catchError, finalize, of, tap} from 'rxjs';
 import {LoginResponse} from './auth.model';
@@ -10,6 +10,10 @@ export class AuthService {
   private api = 'http://localhost:8000/api/auth';
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
+
+  isLoggedIn = signal<boolean>(!!localStorage.getItem('access_token'));
+  currentUser = signal<any>(null);
+
 
   constructor(private http: HttpClient) {
   }
@@ -59,11 +63,20 @@ export class AuthService {
 
   private storeTokens(res: LoginResponse) {
     localStorage.setItem('access_token', res.access_token);
+    this.isLoggedIn.set(true);
+
+    if (res.user){
+      this.currentUser.set(res.user);
+      localStorage.setItem('user_data', JSON.stringify(res.user));
+    }
   }
 
   private clearTokens() {
     localStorage.removeItem('access_token');
-    this.userSubject.next(null);
+    localStorage.removeItem('user_data');
+
+    this.isLoggedIn.set(false);
+    this.currentUser.set(null);
   }
 
   getAccessToken() {

@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Petition} from '../../models/petition';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class PetitionService {
     return this.http.post(`${this.basePath}/petition`, data);
   }
 
-  update(id: number, data: FormData): Observable<any>{
+  update(id: number, data: Petition): Observable<any>{
+
     return this.http.put(`${this.basePath}/petition/${id}`, data);
   }
 

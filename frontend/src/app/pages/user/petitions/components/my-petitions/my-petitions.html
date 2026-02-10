@@ -7,7 +7,7 @@
   }
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-4">
       @for (petition of petitions; track petition.id) {
-        <a [routerLink]="['/petition' + petition.id]" class="text-decoration-none">
+        <a [routerLink]="['/petition/' + petition.id]" class="text-decoration-none">
           <div class="col">
             <div class="card shadow p-0 h-100">
 

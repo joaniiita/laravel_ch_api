@@ -1,6 +1,6 @@
 import {File} from './file';
 import {User} from './user';
-import {Category} from './category';
+
 
 export interface Petition {
   id: number;
@@ -10,10 +10,9 @@ export interface Petition {
   signers: string;
   user_id: number;
   status: string;
-  category_id: number;
+  category_id: any;
   created_at: string;
   updated_at: string;
   files: File[],
   user: User,
-  category?: Category[]
 }

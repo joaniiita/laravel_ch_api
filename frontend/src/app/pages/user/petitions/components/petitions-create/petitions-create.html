@@ -89,8 +89,8 @@
 
 
             <div class="mb-3">
-              <label for="category" class="form-label fs-5">Categoría</label>
-              <select class="form-select" aria-label="Default select example" name="category" id="category" formControlName="category">
+              <label for="category_id" class="form-label fs-5">Categoría</label>
+              <select class="form-select" aria-label="Default select example" name="category_id" id="category_id" formControlName="category_id">
                 @for (category of categories; track category.id) {
                   <option value="{{category.id}}">{{category.name}}</option>
                 }

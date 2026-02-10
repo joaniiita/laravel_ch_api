@@ -10,17 +10,18 @@ import {AsyncPipe} from '@angular/common';
   selector: 'app-petition-show',
   imports: [
     ReactiveFormsModule,
-    RouterLink,
-    AsyncPipe
+    RouterLink
   ],
   templateUrl: './petition-show.html',
   styleUrl: './petition-show.css',
+  standalone: true
 })
 export class PetitionShow {
   signForm!: FormGroup;
   error: any = null;
   id!: number;
   petition!: Petition;
+  public currentUserId : number |null = null;
 
   private petitionService = inject(PetitionService);
   private activatedRoute = inject(ActivatedRoute);
@@ -34,9 +35,18 @@ export class PetitionShow {
     this.id = this.activatedRoute.snapshot.params['id'];
 
     this.petitionService.find(this.id).subscribe({
-      next: (data) => this.petition = data,
+      next: (data) => {
+        console.log(data);
+        this.petition = data;
+      },
       error: (err) => console.log(err)
-    })
+    });
+
+    this.auth.user$.subscribe(user => {
+      this.currentUserId = user ? user.id : null;
+    });
+
+    this.auth.loadUserIfNeeded();
 
     this.signForm = this.fb.group({
       name: ['', [Validators.required]],
