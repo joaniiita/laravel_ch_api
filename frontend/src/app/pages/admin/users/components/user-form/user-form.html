@@ -1,0 +1,61 @@
+<form method="POST" enctype="multipart/form-data" (ngSubmit)="onSubmit()" [formGroup]="userForm">
+  @if (mode() === 'show'){
+    <div class="col-md-4 mb-4">
+      <img [src]="getImageUrl(user().image)"
+           class="img-fluid rounded shadow-sm w-100"
+           style="object-fit: cover; max-height: 400px;"
+           alt="Imagen">
+    </div>
+  }
+  <div class="mb-3">
+    <label for="name" class="form-label fw-semibold">Nombre</label>
+    <input type="text" class="form-control" id="name" name="name"
+           placeholder="Escribe un título claro y descriptivo" required formControlName="name">
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label fw-semibold">Email</label>
+    <input type="email" class="form-control" id="email" name="email"
+           placeholder="Escribe un título claro y descriptivo" required formControlName="email">
+  </div>
+
+  <div class="mb-3">
+    <label for="is_admin" class="form-label fw-semibold">Admin</label>
+    <input type="number" class="form-control" id="is_admin" name="is_admin"
+           placeholder="Escribe un título claro y descriptivo" required formControlName="is_admin">
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label fw-semibold">Contraseña</label>
+    <input type="password" class="form-control" id="password" name="password"
+           placeholder="********" required formControlName="password">
+  </div>
+
+
+  @if ( mode() === 'edit') {
+    <div class="mb-4">
+      <label for="image" class="form-label fw-semibold">Imagen Principal (Opcional)</label>
+      <input class="form-control" type="file" id="image" name="image" accept="image/*" (change)="onSelectedFile($event)">
+      <div id="imagenHelp" class="form-text">Sube una imagen representativa para tu petición (Max 2MB).</div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/users']" class="btn btn-secondary me-2">Cancelar</a>
+      <button type="submit" class="btn btn-danger" [disabled]="!userForm.valid || !selectedFile" >
+        Guardar Petición
+      </button>
+    </div>
+  } @else {
+
+    <hr class="my-4">
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/users']" class="btn btn-secondary">Volver</a>
+    </div>
+  }
+
+
+
+</form>
+

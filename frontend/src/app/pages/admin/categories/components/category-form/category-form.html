@@ -1,0 +1,27 @@
+<form method="POST" enctype="multipart/form-data" (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
+
+  <div class="mb-3">
+    <label for="name" class="form-label fw-semibold">Name</label>
+    <input type="text" class="form-control" id="name" name="name"
+           placeholder="Escribe un título claro y descriptivo" required formControlName="name">
+  </div>
+
+  @if (mode() === 'create' || mode() === 'edit') {
+    <hr class="my-4">
+
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/categories']" class="btn btn-secondary me-2">Cancelar</a>
+      <button type="submit" class="btn btn-danger" [disabled]="!categoryForm.valid" >
+        Guardar Categoría
+      </button>
+    </div>
+  } @else {
+
+    <hr class="my-4">
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/categories']" class="btn btn-secondary">Volver</a>
+    </div>
+  }
+
+</form>
+

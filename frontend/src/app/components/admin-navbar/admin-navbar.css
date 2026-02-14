@@ -1,0 +1,20 @@
+.sidebar {
+  width: 250px; /* Ancho fijo de la barra lateral */
+  background-color: #E83333; /* Color rojo de change.org */
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  color: white; /* Para asegurar que el texto en la barra lateral sea blanco */
+}
+
+.main-content {
+  margin-left: 250px; /* Separación del contenido principal para que no se superponga al sidebar */
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Color de fondo ligero */
+}
+
+/* Color para el estado 'pendiente' */
+.badge-pendiente {
+  background-color: #ffc107; /* Amarillo de Bootstrap */
+  color: #212529;
+}

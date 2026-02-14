@@ -7,27 +7,13 @@ import {AuthService} from './shared/auth/auth';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, RouterLink, CommonModule],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.html',
+  standalone: true,
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('frontend');
 
-  protected auth = inject(AuthService);
-  private router = inject(Router);
 
-  logout() {
-    this.auth.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Error al cerrar sesión', err);
-      },
-      complete: () => {
-        this.router.navigate(['/login']);
-      }
-    });
-  }
 }

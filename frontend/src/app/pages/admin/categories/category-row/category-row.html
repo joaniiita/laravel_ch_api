@@ -1,0 +1,15 @@
+<td>{{ category().id }}</td>
+<td>{{ category().name }}</td>
+<td class="text-center">
+  <div class="d-flex justify-content-center">
+    <a [routerLink]="['/admin/category/' + category().id]" class="btn btn-sm text-white me-1" style="background-color: #7c5fd0;">
+      <i class="bi bi-eye-fill"></i>
+    </a>
+    <a [routerLink]="['/admin/categoryEdit/' + category().id]" class="btn btn-sm btn-success me-1">
+      <i class="bi bi-pencil-fill"></i>
+    </a>
+    <button (click)="onDelete.emit(category().id)" class="btn btn-danger btn-sm">
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</td>

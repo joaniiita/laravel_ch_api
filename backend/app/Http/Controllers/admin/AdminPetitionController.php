@@ -13,13 +13,12 @@ class AdminPetitionController extends Controller
 {
     public function index()
     {
-        $petitions = Petition::all();
+        $petitions = Petition::with(['files', 'user', 'category'])->get();
         return response()->json($petitions);
     }
 
-    public function show(Petition $petition)
-    {
-        return response()->json($petition);
+    public function show(Petition $petition){
+        return response()->json($petition->load(['files', 'user']));
     }
 
     public function create(Request $request)
@@ -135,7 +134,7 @@ class AdminPetitionController extends Controller
         }
 
         $petition->save();
-        response()->json(['message' => 'Petition status changed successfully.' , 'data' => $petition]);
+        return response()->json(['message' => 'Petition status changed successfully.' , 'data' => $petition]);
     }
 
     private function fileUpload(Request $request, $id)

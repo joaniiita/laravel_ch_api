@@ -54,6 +54,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
     Route::get('petition/{petition}', [AdminPetitionController::class, 'show']);
 });
 
+Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
+    Route::put('user/{user}', [AdminUserController::class, 'update']);
+    Route::delete('user/{user}', [AdminUserController::class, 'destroy']);
+    Route::get('users', [AdminUserController::class, 'index']);
+    Route::get('user/{user}', [AdminUserController::class, 'show']);
+
+});
+
 //Route::middleware('admin')->controller(AdminPetitionController::class)->group(function () {
 //    Route::get('admin', 'home')->name('admin.home');
 //    Route::get('admin/petitions/index', 'home')->name('adminpetitions.index');

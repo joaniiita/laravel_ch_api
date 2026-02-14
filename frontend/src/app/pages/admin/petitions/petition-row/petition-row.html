@@ -1,0 +1,35 @@
+<td>{{ petition().id }}</td>
+<td>
+  <img [src]="petition().files?.[0]?.name ? getUrl(petition().files[0].name) : 'assets/defaultProfile.jpg'"
+       class="rounded-circle"
+       width="40" height="40"
+       style="object-fit: cover;">
+</td>
+<td>{{ petition().title }}</td>
+<td>{{ petition().description }}</td>
+<td>{{ petition().signers }}</td>
+<td>
+  <span class="badge" [class]="petition().status === 'pending' ? 'bg-warning' : 'bg-success'">
+    {{ petition().status }}
+  </span>
+</td>
+<td class="text-center">
+  <div class="d-flex justify-content-center">
+    <a [routerLink]="['/admin/petition/' + petition().id]" class="btn btn-sm text-white me-1" style="background-color: #7c5fd0;">
+      <i class="bi bi-eye-fill"></i>
+    </a>
+    <a [routerLink]="['/admin/petitionEdit/' + petition().id]" class="btn btn-sm btn-success me-1">
+      <i class="bi bi-pencil-fill"></i>
+    </a>
+    <button (click)="onChangeStatus.emit(petition())" class="btn btn-yellow btn-sm text-white me-1">
+      @if(petition().status === 'pending') {
+        <i class="bi bi-check-lg"></i>
+      } @else {
+        <i class="bi bi-x-lg"></i>
+      }
+    </button>
+    <button (click)="onDelete.emit(petition().id)" class="btn btn-danger btn-sm">
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</td>

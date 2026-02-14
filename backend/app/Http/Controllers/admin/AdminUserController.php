@@ -23,9 +23,8 @@ class AdminUserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email',
-            'role' => 'required',
+            'is_admin' => 'required',
             'image' => 'nullable|file|mimes:jpeg,png,jpg',
-            'password' => 'required|string|min:8'
         ]);
 
         if ($validator->fails()) {
@@ -47,7 +46,7 @@ class AdminUserController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->image = $image;
-        $user->role = $request->get('role');
+        $user->is_admin = $request->get('is_admin');
         $user->update();
 
         return response()->json($user, 200);

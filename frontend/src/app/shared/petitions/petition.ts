@@ -25,7 +25,6 @@ export class PetitionService {
   }
 
   update(id: number, data: Petition): Observable<any>{
-
     return this.http.put(`${this.basePath}/petition/${id}`, data);
   }
 

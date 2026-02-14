@@ -1,0 +1,79 @@
+<form method="POST" enctype="multipart/form-data" (ngSubmit)="onSubmit()" [formGroup]="petitionForm">
+  @if (mode() === 'show'){
+    <div class="col-md-4 mb-4">
+      <img [src]="getImageUrl(petition()?.files[0].name)"
+           class="img-fluid rounded shadow-sm w-100"
+           style="object-fit: cover; max-height: 400px;"
+           alt="Imagen de la petición">
+    </div>
+  }
+  <div class="mb-3">
+    <label for="title" class="form-label fw-semibold">Título</label>
+    <input type="text" class="form-control" id="title" name="title"
+           placeholder="Escribe un título claro y descriptivo" required formControlName="title">
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label fw-semibold">Descripción</label>
+    <textarea class="form-control" id="description" name="description" rows="6"
+              placeholder="Describe el problema y lo que pides a los responsables" required formControlName="description"></textarea>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="category" class="form-label fw-semibold">Categoría</label>
+      <select class="form-select" id="category_id" name="category_id" required formControlName="category_id">
+      <option selected disabled value="">Selecciona una Categoría...</option>
+      @for (category of categories(); track category.id) {
+          <option [value]="category.id">{{category.name}}</option>
+      }
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label for="destinatary" class="form-label fw-semibold">Responsable/Destinatario</label>
+      <input type="text" class="form-control" id="destinatary" name="destinatary"
+             placeholder="Ej: Ministerio de Salud, Alcalde X, Empresa Y" required formControlName="destinatary" >
+    </div>
+  </div>
+
+  @if (mode() === 'create' || mode() === 'edit') {
+    <div class="mb-4">
+      <label for="image" class="form-label fw-semibold">Imagen Principal (Opcional)</label>
+      <input class="form-control" type="file" id="image" name="image" accept="image/*" (change)="onSelectedFile($event)">
+      <div id="imagenHelp" class="form-text">Sube una imagen representativa para tu petición (Max 2MB).</div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/petitions']" class="btn btn-secondary me-2">Cancelar</a>
+      <button type="submit" class="btn btn-danger" [disabled]="!petitionForm.valid || !selectedFile" >
+        Guardar Petición
+      </button>
+    </div>
+  } @else {
+    <div class="col-sm-3 mb-3">
+      <label class="form-label fw-bold text-uppercase small text-muted">Estatus:</label>
+      <div>
+        @if(petition().status === 'accepted'){
+        <span class="badge bg-success">Aceptada</span>
+        } @else if(petition().status === 'pending'){
+        <span class="badge bg-warning text-dark">Pendiente</span>
+        } @else {
+        <span class="badge bg-secondary">{{petition().status}}</span>
+        }
+      </div>
+    </div>
+
+
+    <hr class="my-4">
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/admin/petitions']" class="btn btn-secondary">Volver</a>
+    </div>
+  }
+
+
+
+</form>
+
