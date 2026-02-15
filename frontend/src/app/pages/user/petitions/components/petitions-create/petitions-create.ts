@@ -59,11 +59,12 @@ export class PetitionsCreate {
           console.log(data);
         },
         err => {
-          this.error = err.error.message;
+          this.error = err.error;
         }
       );
     } else {
-      console.log('Invalid form data');
+      this.error = 'Faltan campos requeridos por completar.'
+      console.log(this.error)
     }
 
   }

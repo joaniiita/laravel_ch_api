@@ -1,5 +1,4 @@
 import {Component, inject, signal} from '@angular/core';
-import {PetitionForm} from '../../../petitions/components/petition-form/petition-form';
 import {CategoryService} from '../../../../../shared/categories/category';
 import {ActivatedRoute} from '@angular/router';
 import {CategoryForm} from '../category-form/category-form';
@@ -7,7 +6,6 @@ import {CategoryForm} from '../category-form/category-form';
 @Component({
   selector: 'app-category-show',
   imports: [
-    PetitionForm,
     CategoryForm
   ],
   templateUrl: './category-show.html',

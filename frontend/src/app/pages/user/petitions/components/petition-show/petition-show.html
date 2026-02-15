@@ -155,10 +155,12 @@
           <div class="border-top mx-3 p-3">
             <h3 class="fw-bold fs-4 mb-3">Firma esta petición</h3>
             <form method="POST" [formGroup]="signForm" (ngSubmit)="onSubmit()">
-              @if (error?.error) {
-                <div class="alert alert-danger" role="alert">
-                  <p>{{error.error}}</p>
-                </div>
+              @if (error?.length) {
+                @for (err of error; track $index) {
+                  <div class="alert alert-danger" role="alert">
+                    <p>{{err}}</p>
+                  </div>
+                }
               }
               <div class="mb-3">
                 <label for="name" class="form-label fw-normal">Nombre</label>

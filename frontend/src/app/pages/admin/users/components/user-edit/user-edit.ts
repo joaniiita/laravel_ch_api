@@ -9,7 +9,6 @@ import {UserForm} from '../user-form/user-form';
 @Component({
   selector: 'app-user-edit',
   imports: [
-    CategoryForm,
     UserForm
   ],
   templateUrl: './user-edit.html',

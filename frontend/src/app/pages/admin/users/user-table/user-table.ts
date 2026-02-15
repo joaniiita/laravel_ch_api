@@ -10,7 +10,6 @@ import {User} from '../../../../models/user';
   selector: 'app-user-table',
   imports: [
     UserRow,
-    RouterLink
   ],
   templateUrl: './user-table.html',
   styleUrl: './user-table.css',

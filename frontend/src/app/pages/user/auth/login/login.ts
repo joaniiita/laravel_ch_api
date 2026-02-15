@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {AuthService} from '../../../../shared/auth/auth';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -21,7 +21,8 @@ export class Login {
   private router = inject(Router);
 
   loginForm!: FormGroup;
-  error : any = null;
+  errorMsg = signal<any>(null);
+
   constructor() {}
 
   ngOnInit() {
@@ -37,8 +38,8 @@ export class Login {
         this.router.navigate(['/']);
       },
       error : (err) => {
-        this.error = err.error;
-        console.log('Objeto de error capturado:', this.error);
+        this.errorMsg.set(Object.values(err.error))
+        console.log(err.error)
       }
     })
   }

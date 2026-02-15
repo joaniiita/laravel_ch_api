@@ -1,6 +1,6 @@
 <td>{{ petition().id }}</td>
 <td>
-  <img [src]="petition().files?.[0]?.name ? getUrl(petition().files[0].name) : 'assets/defaultProfile.jpg'"
+  <img [src]="petition().files[0]?.name ? getUrl(petition().files[0].name) : 'assets/defaultProfile.jpg'"
        class="rounded-circle"
        width="40" height="40"
        style="object-fit: cover;">

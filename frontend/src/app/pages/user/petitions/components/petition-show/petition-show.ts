@@ -62,7 +62,10 @@ export class PetitionShow {
   onSubmit() {
     this.petitionService.signPetition(this.petition.id, this.signForm.value).subscribe({
       next: () => this.router.navigate(['/petitions']),
-      error: err => this.error = err.error
+      error: err => {
+        this.error = Object.values(err.error);
+        console.log(Object.values(this.error))
+      }
     })
   }
 

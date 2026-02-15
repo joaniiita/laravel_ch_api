@@ -2,11 +2,14 @@
   <div class="card shadow-sm">
     <div class="card-body">
       <h3 class="text-center mb-4">Log in</h3>
-      @if (error?.error) {
-        <div class="alert alert-danger">
-          <p>{{ error.error }}</p>
-        </div>
+      @if (errorMsg()?.length) {
+        @for (msg of errorMsg(); track $index) {
+          <div class="alert alert-danger" role="alert">
+            <p>{{ msg }}</p>
+          </div>
+        }
       }
+
       <form method="POST" [formGroup]="loginForm" [class.was-validated]="loginForm.invalid" (ngSubmit)="onSubmit()">
 
         <!-- Email -->

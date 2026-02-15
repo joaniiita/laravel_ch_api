@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {PetitionForm} from '../petition-form/petition-form';
 import {PetitionService} from '../../../../../shared/petitions/petition';
 import {Category} from '../../../../../models/category';
@@ -7,7 +7,6 @@ import {Category} from '../../../../../models/category';
 @Component({
   selector: 'app-petition-create',
   imports: [
-    RouterLink,
     PetitionForm
   ],
   templateUrl: './petition-create.html',

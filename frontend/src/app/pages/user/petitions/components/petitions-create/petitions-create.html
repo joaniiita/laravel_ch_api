@@ -42,31 +42,36 @@
         </button>
       </div>
     </div>
-    @if (error?.destinatary) {
-      <div class="alert alert-danger" role="alert">
-        <p>{{error?.destinatary}}</p>
-      </div>
-    } @else if (error?.title) {
-      <div class="alert alert-danger" role="alert">
-        <p>{{error?.title}}</p>
-      </div>
-    } @else if (error?.description) {
-      <div class="alert alert-danger" role="alert">
-        <p>{{error?.description}}</p>
-      </div>
-    } @else if (error?.image) {
-      <div class="alert alert-danger" role="alert">
-        <p>{{error?.image}}</p>
-      </div>
-    }  @else if (error?.category) {
-      <div class="alert alert-danger" role="alert">
-        <p>{{error?.category}}</p>
-      </div>
-    }
 
     <div id="formsGroup">
       <div class="collapse mt-3" id="localForm" data-bs-parent="#formsGroup">
         <div class="card card-body">
+          @if (error?.destinatary) {
+            <div class="alert alert-danger" role="alert">
+              <p>{{error?.destinatary}}</p>
+            </div>
+          } @else if (error?.title) {
+            <div class="alert alert-danger" role="alert">
+              <p>{{error?.title}}</p>
+            </div>
+          } @else if (error?.description) {
+            <div class="alert alert-danger" role="alert">
+              <p>{{error?.description}}</p>
+            </div>
+          } @else if (error?.image) {
+            <div class="alert alert-danger" role="alert">
+              <p>{{error?.image}}</p>
+            </div>
+          }  @else if (error?.category) {
+            <div class="alert alert-danger" role="alert">
+              <p>{{error?.category}}</p>
+            </div>
+          } @else if (error){
+            <div class="alert alert-danger" role="alert">
+              <p>{{error}}</p>
+            </div>
+          }
+
           <form method="POST" [formGroup]="petitionForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
 
             <div class="mb-3">
