@@ -96,7 +96,7 @@
 
 
       <div class="col-12 col-lg-4">
-        @if (auth.isLoggedIn() && currentUserId == petition.user_id) {
+        @if (isLoggedIn() && currentUserId == petition.user_id) {
           <div class="row mb-3 gap-2 d-flex justify-content-around">
             <a [routerLink]="['/petitionEdit/' + petition.id]" class="btn btn-warning col-5">
               Editar

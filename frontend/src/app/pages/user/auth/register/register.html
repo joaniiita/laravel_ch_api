@@ -1,49 +1,51 @@
-<p>register works!</p>
-<h2>Register</h2>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Name</label>
-    <input
-      type="text"
-      name="name"
-      formControlName="name"
-      required
-    />
-  </div>
-  <div>
-    <label>Email</label>
-    <input
-      type="email"
-      name="email"
-      formControlName="email"
-      required
-    />
-  </div>
-  <div>
-    <label>Password</label>
-    <input
-      type="password"
-      name="password"
-      formControlName="password"
-      required
-      minlength="6"
-    />
-  </div>
-  <div>
-    <label>Password Confirmation</label>
-    <input
-      type="password"
-      name="password_confirmation"
-      formControlName="password_confirmation"
-      required
-      minlength="6"
-    />
-  </div>
-  <button type="submit" [disabled]="registerForm.invalid">
-    Register
-  </button>
-  <p>
-    Already have an account?
-    <a routerLink="/login">Login</a>
-  </p>
-</form>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm p-4">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Registrarse</h2>
+
+          <form method="POST" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            @if (error?.error) {
+              <div class="alert alert-danger">
+                <p>{{ error.error }}</p>
+              </div>
+            } @else if (error?.email) {
+              <div class="alert alert-danger">
+                <p>{{ error.email[0] }}</p>
+              </div>
+            }
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input id="name" type="text" name="name" class="form-control" required autofocus autocomplete="name" formControlName="name">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input id="email" type="email" name="email" class="form-control" required autocomplete="username" formControlName="email">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input id="password" type="password" name="password" class="form-control" required autocomplete="new-password" formControlName="password">
+            </div>
+
+            <div class="mb-4">
+              <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
+              <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required autocomplete="new-password" formControlName="password_confirmation">
+            </div>
+
+
+            <div class="d-flex justify-content-end align-items-center mt-4">
+              <a class="text-decoration-none text-muted me-3" [routerLink]="['/login']">
+                ¿Ya estás registrado?
+              </a>
+
+              <button type="submit" class="btn btn-primary">
+                Registrarse
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

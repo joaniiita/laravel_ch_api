@@ -23,21 +23,23 @@ import {AdminCategoryEdit} from './pages/admin/categories/components/category-ed
 import {UserTable} from './pages/admin/users/user-table/user-table';
 import {AdminUserEdit} from './pages/admin/users/components/user-edit/user-edit';
 import {AdminUserShow} from './pages/admin/users/components/user-show/user-show';
+import {EditProfile} from './pages/user/auth/profile/components/edit-profile/edit-profile';
 
 
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
-  {
-    path: 'profile',
-    component: Profile,
-    canActivate: [authGuard],
-  },
   {
     path: '',
     component: UserLayout,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'login', component: Login },
+      { path: 'register', component: Register },
+      {
+        path: 'profile',
+        component: Profile,
+        canActivate: [authGuard],
+      },
+      { path: 'editProfile/:id', component: EditProfile, canActivate: [authGuard] },
       { path: 'home', component: Home},
       { path: 'petitions', component: Petitions },
       { path: 'petition/:id', component: PetitionShow},

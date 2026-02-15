@@ -1,8 +1,85 @@
-<p>profile works!</p>
-@if (user$ | async; as user) {
-  <div>
-    <h2>{{ user.name }}</h2>
-    <p>{{ user.email }}</p>
-    <button (click)="logout()">Logout</button>
+@if (currentUser) {
+  <div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 mx-5">
+      <h2 class="h3 mb-0 text-gray-800">Detalle del Usuario: {{ currentUser.name }}</h2>
+    </div>
+
+    <div class="row mx-5">
+      <div class="col-lg-4">
+        <div class="card shadow mb-4">
+          <div class="card-body text-center">
+            <div class="mt-3 mb-4">
+              <img [src]="getImageUrl(currentUser.image)"
+                   class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center border border-3 border-secondary"
+                   style="width: 120px; height: 120px; object-fit: cover;" alt="foto_perfil">
+            </div>
+
+            <h4 class="card-title">{{ currentUser.name }}</h4>
+            <p class="text-muted">{{ currentUser.email }}</p>
+
+            <hr>
+
+            <div class="row text-center">
+              <div class="col-12">
+                <h5 class="fw-bold">{{ petitions_count() ?? 0 }}</h5>
+                <p class="text-muted small">Peticiones Creadas</p>
+              </div>
+            </div>
+
+            <div class="d-grid mt-3">
+              <a [routerLink]="['/editProfile/' + currentUser.id]" class="btn btn-warning">
+                <i class="bi bi-pencil-square me-2"></i> Editar Perfil
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 bg-white">
+            <h6 class="m-0 font-weight-bold text-danger">Información Administrativa</h6>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                ID: <span>{{ currentUser.id }}</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Rol:
+                <span class="badge" [ngClass]="currentUser.is_admin ? 'bg-danger' : 'bg-success'">
+                {{ currentUser.is_admin ? 'Administrador' : 'Usuario Estándar' }}
+              </span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Cuenta Verificada (Email):
+                @if (currentUser.email_verified_at) {
+                  <span class="badge bg-success">
+                  Sí ({{ currentUser.email_verified_at | date:'dd/MM/yyyy' }})
+                </span>
+                } @else {
+                  <span class="badge bg-warning text-dark">No</span>
+                }
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Fecha de Registro:
+                <span>{{ currentUser.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Última Actualización:
+                <span>{{ currentUser.updated_at | date:'dd/MM/yyyy HH:mm' }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+} @else {
+  <div class="text-center py-5">Cargando datos del usuario...</div>
 }

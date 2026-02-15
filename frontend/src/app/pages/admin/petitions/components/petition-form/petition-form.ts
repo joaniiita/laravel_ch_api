@@ -54,13 +54,10 @@ export class PetitionForm {
       destinatary: ['', [Validators.required]],
     });
 
-    if (this.mode() === 'show'){
-      this.petitionForm.disable();
-    }
-
     this.getCategories();
 
     if (this.mode() === 'show'){
+      this.petitionForm.disable();
       this.id.set(this.aRouter.snapshot.params['id']);
       this.aPetitionService.find(this.id()).subscribe({
         next: (data) => this.petition.set(data),

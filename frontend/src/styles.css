@@ -189,6 +189,13 @@ body {
   border: 1px solid var(--lading-pill-blue-darker) !important;
 }
 
+.title-clamp {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
 .text-clamp {
   display: -webkit-box !important;
   -webkit-line-clamp: 3 !important;

@@ -15,16 +15,16 @@ export class UserNavbar {
   protected auth = inject(AuthService);
   private router = inject(Router);
 
-  public currentUserRole: boolean | null = null;
+  public currentUser: any | null = null;
   public isLoggedIn = this.auth.isLoggedIn;
 
   ngOnInit() {
     this.auth.loadUserIfNeeded();
     this.auth.user$.subscribe(user => {
-      this.currentUserRole = user ? user.is_admin : null;
+      this.currentUser = user ? user : null;
     });
 
-
+    console.log(this.currentUser)
   }
 
   logout() {
@@ -39,5 +39,9 @@ export class UserNavbar {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  getImageUrl(image: string){
+    return 'http://localhost:8000/assets/images/user/' + image;
   }
 }

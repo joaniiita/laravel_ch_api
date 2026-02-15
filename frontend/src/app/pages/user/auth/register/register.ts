@@ -44,7 +44,7 @@ export class Register implements OnInit{
           console.log(data);
         },
         err => {
-          this.error = err.error.message;
+          this.error = err.error;
         }
       )
     } else {

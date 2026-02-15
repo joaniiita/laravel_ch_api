@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Petition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminPetitionController extends Controller
@@ -79,28 +80,23 @@ class AdminPetitionController extends Controller
             if ($request->hasFile('image')) {
 
                 if ($oldFile) {
-                    $oldPath = public_path($oldFile->file_path);
-
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
-                    }
+                    Storage::disk('public')->delete($oldFile->file_path);
+                    Storage::disk('public')->delete('assets/images/petitions/' . ltrim($oldFile->file_path, '/'));
 
                     $oldFile->delete();
                 }
 
-                $image = $request->file('image');
-                $newName = time() . '_' . $image->getClientOriginalName();
-                $destination = 'assets/images/petitions/';
-                $image->move(public_path($destination), $newName);
+                $path = $request->file('image')->store('assets/images/petitions', 'public');
+                $filename = basename($path);
 
                 File::create([
-                    'name' => $newName,
-                    'file_path' => $newName,
+                    'name' => $filename,
+                    'file_path' => $path,
                     'petition_id' => $petition->id
                 ]);
             }
 
-            if (!$request->has('status')){
+            if (!$request->has('status')) {
                 $status = $petition->status;
             } else {
                 $status = $request->get('status');
@@ -139,20 +135,21 @@ class AdminPetitionController extends Controller
 
     private function fileUpload(Request $request, $id)
     {
-        $image = null;
+        $path = null;
+        $filename = null;
+
         if ($request->hasFile('image')) {
-            $image = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('assets/images/petitions'), $image);
+            $path = $request->file('image')->store('assets/images/petitions', 'public');
+            $filename = basename($path);
         }
 
         $petition = Petition::findOrFail($id);
 
         $petition->files()->create([
-            'name' => $image,
-            'file_path' => $image,
+            'name' => $filename,
+            'file_path' => $path,
             'petition_id' => $id
         ]);
-
     }
 }
 

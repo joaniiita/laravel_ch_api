@@ -23,11 +23,14 @@ export class PetitionShow {
   petition!: Petition;
   public currentUserId : number |null = null;
 
+
   private petitionService = inject(PetitionService);
   private activatedRoute = inject(ActivatedRoute);
   protected auth = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+
+  isLoggedIn = this.auth.isLoggedIn;
   constructor() {
   }
 

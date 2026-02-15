@@ -29,7 +29,7 @@ export class AdminPetitionService {
   }
 
   delete(id: number): Observable<any>{
-    return this.http.delete(`${this.basePath}/petition${id}`);
+    return this.http.delete(`${this.basePath}/petition/${id}`);
   }
 
   create(data: FormData): Observable<any>{

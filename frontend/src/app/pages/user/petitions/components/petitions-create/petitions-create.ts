@@ -46,14 +46,6 @@ export class PetitionsCreate {
     if (this.petitionForm.valid) {
       const formData = new FormData();
 
-      // const currentUser = this.auth.getcurrentUserValue();
-      //
-      // if (!currentUser) {
-      //   console.error("No hay usuario cargado. ¿Hiciste login?");
-      //   // Opcional: llamar a this.auth.getProfile().subscribe(...) si quieres forzar la carga
-      //   return;
-      // }
-
       formData.append('destinatary', this.petitionForm.get('destinatary')?.value);
       formData.append('title', this.petitionForm.get('title')?.value);
       formData.append('description', this.petitionForm.get('description')?.value);

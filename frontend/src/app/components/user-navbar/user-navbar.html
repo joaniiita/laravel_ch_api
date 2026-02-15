@@ -66,15 +66,52 @@
             <a class="nav-link text-dark" [routerLink]="['/register']">Registrarse</a>
           </li>
         } @else {
-          @if( currentUserRole ){
+          @if( currentUser?.is_admin === 1 ){
             <li class="nav-item me-3">
               <a class="btn btn-outline-dark  border-dark fw-bold py-2 px-3" [routerLink]="['/admin/petitions']" >Dashboard</a>
             </li>
           }
-          <li class="nav-item">
-            <button (click)="logout()" type="submit" class="nav-link btn btn-link text-dark p-0 m-0">Logout</button>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <button (click)="logout()" type="submit" class="nav-link btn btn-link text-dark p-0 m-0">Logout</button>-->
+<!--          </li>-->
+
+          <div class="dropdown">
+            <a href="#"
+               class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+               id="userDropdown"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+
+              <img [src]="getImageUrl(currentUser.image)"
+                   alt="mdo"
+                   width="32"
+                   height="32"
+                   class="rounded-circle me-2 border border-light">
+
+              <strong class="d-none d-sm-inline text-black">{{ currentUser.name }}</strong>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item d-flex align-items-center" [routerLink]="['/profile']">
+                  <i class="bi bi-person me-2"></i> Mi Perfil
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" [routerLink]="['/settings']">
+                  <i class="bi bi-gear me-2"></i> Ajustes
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <button class="dropdown-item d-flex align-items-center text-danger" (click)="logout()">
+                  <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                </button>
+              </li>
+            </ul>
+          </div>
         }
+
       </ul>
     </div>
   </div>
