@@ -76,11 +76,15 @@ export class PetitionShow {
   }
 
   getUrl(image: string) {
-    return 'http://localhost:8000/assets/images/petitions/' + image;
+    return 'http://localhost:8000/storage/assets/images/petitions/' + image;
+
+
   }
 
   getUserUrl(image: string) {
-    return 'http://localhost:8000/assets/images/user/' + image;
+    return 'http://localhost:8000/storage/assets/images/user/' + image;
+
+
   }
 
 }

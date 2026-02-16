@@ -60,7 +60,7 @@ class PetitionController extends Controller
                     $this->fileUpload($request, $petition->id);
                 }
 
-                return response()->json(['message' => 'Petition created successfully.', 'data' => $petition->load('categories')], 201);
+                return response()->json(['message' => 'Petition created successfully.', 'data' => $petition], 201);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
