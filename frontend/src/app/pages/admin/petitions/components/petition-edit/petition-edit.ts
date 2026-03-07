@@ -3,6 +3,7 @@ import {PetitionForm} from '../petition-form/petition-form';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PetitionService} from '../../../../../shared/petitions/petition';
 import {AdminPetitionService} from '../../../../../shared/petitions/admin/admin-petition';
+import {Petition} from '../../../../../models/petition';
 
 @Component({
   selector: 'app-petition-edit',
@@ -20,20 +21,25 @@ export class AdminPetitionEdit {
 
   errorMsg = signal<any>(null);
   id = signal<number>(0);
-  petition = signal<any>({});
-  constructor(){}
+  petition = signal<Petition | null>(null);
 
-  ngOnInit(){
+  constructor() {
+  }
+
+  ngOnInit() {
     this.id.set(this.aRouter.snapshot.params['id']);
     this.adminPetitionService.find(this.id()).subscribe({
-      next: (data) => this.petition.set(data),
+      next: (data) => {
+        this.petition.set(data);
+        console.log(data);
+      },
       error: (err) => console.log(err)
     })
   }
 
-  handleSave(formData: FormData){
+  handleSave(formData: FormData) {
     formData.append('_method', 'PUT');
-    this.adminPetitionService.update(this.id(),formData).subscribe({
+    this.adminPetitionService.update(this.id(), formData).subscribe({
       next: () => this.router.navigate(['/admin/petitions']),
       error: (err) => {
         console.log(err);

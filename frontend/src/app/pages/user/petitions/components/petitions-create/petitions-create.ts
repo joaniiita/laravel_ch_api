@@ -16,7 +16,7 @@ import {AuthService} from '../../../../../shared/auth/auth';
 export class PetitionsCreate {
   petitionForm!: FormGroup;
   error: any = null;
-  selectedFile!: File;
+  selectedFile!: File[];
   categories: any[] = [];
   id!: number;
 
@@ -51,7 +51,9 @@ export class PetitionsCreate {
       formData.append('description', this.petitionForm.get('description')?.value);
       formData.append('category_id', this.petitionForm.get('category_id')?.value);
       // formData.append('user_id', currentUser.id.toString())
-      formData.append('image', this.selectedFile, this.selectedFile.name);
+
+      const images = this.selectedFile;
+      images.forEach(image => formData.append('image[]', image));
 
       this.petitionService.create(formData).subscribe(
         data => {
@@ -59,7 +61,7 @@ export class PetitionsCreate {
           console.log(data);
         },
         err => {
-          this.error = err.error;
+          this.error = err.error.error;
         }
       );
     } else {
@@ -72,8 +74,7 @@ export class PetitionsCreate {
   onFileSelected(event: any) {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
-      this.selectedFile = input.files[0];
-      console.log(this.selectedFile);
+      this.selectedFile = Array.from(input.files);
     }
   }
 

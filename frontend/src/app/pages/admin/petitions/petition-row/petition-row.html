@@ -1,9 +1,9 @@
 <td>{{ petition().id }}</td>
 <td>
-  <img [src]="petition().files[0]?.name ? getUrl(petition().files[0].name) : 'assets/defaultProfile.jpg'"
+  <img [src]="getUrl(petition().files[0]?.name ?? '')"
        class="rounded-circle"
        width="40" height="40"
-       style="object-fit: cover;">
+       style="object-fit: cover;" alt="">
 </td>
 <td>{{ petition().title }}</td>
 <td>{{ petition().description }}</td>

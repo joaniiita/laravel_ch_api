@@ -40,6 +40,7 @@ export class PetitionShow {
     this.petitionService.find(this.id).subscribe({
       next: (data) => {
         console.log(data);
+
         this.petition = data;
       },
       error: (err) => console.log(err)

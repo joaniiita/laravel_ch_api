@@ -6,7 +6,26 @@
 
       <div class="col-12 col-lg-7">
 
-        <img [src]="getUrl(petition.files[0].name)" class="img-fluid rounded-3  show-img-height mb-4 col-12 " alt="Kira López">
+
+        <div id="carouselExample" class="carousel slide">
+          <div class="carousel-inner">
+
+            @for (image of petition.files; track image.id) {
+              <div class="carousel-item active">
+                <img [src]="getUrl(image.name)" class="d-block w-100" alt="..." style="height: 500px; object-fit: cover;">
+              </div>
+            }
+
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
 
         <h2 class="fw-bold fs-1">El problema</h2>
         <div style="height: auto;" class="fw-normal">

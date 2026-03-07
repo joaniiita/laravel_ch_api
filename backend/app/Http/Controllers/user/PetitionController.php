@@ -12,19 +12,22 @@ use Illuminate\Support\Facades\Validator;
 
 class PetitionController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $petitions = Petition::with(['files', 'user', 'category'])->get();
         return response()->json($petitions);
     }
 
-    public function show(Petition $petition){
+    public function show(Petition $petition)
+    {
         return response()->json($petition->load(['files', 'user']));
     }
 
-    public function listMine(){
+    public function listMine()
+    {
         $id = Auth::id();
         $myPetitions = Petition::where('user_id', $id)->paginate(5);
-        return response()->json( $myPetitions->load(['files']));
+        return response()->json($myPetitions->load(['files']));
     }
 
     public function create(Request $request)
@@ -34,7 +37,7 @@ class PetitionController extends Controller
             'description' => 'required|string',
             'destinatary' => 'required',
             'category_id' => 'required',
-            'image' => 'required|file|mimes:jpeg,png,jpg,svg',
+            'image.*' => 'required|file|mimes:jpeg,png,jpg,svg',
         ]);
 
         if ($validator->fails()) {
@@ -42,37 +45,37 @@ class PetitionController extends Controller
         }
 
         try {
-            if (Auth::user()->is_admin) {
-                $user = Auth::user();
+            $user = Auth::user();
+            $petition = Petition::create([
+                'title' => $request->get('title'),
+                'description' => $request->get('description'),
+                'destinatary' => $request->get('destinatary'),
+                'category_id' => $request->get('category_id'),
+                'user_id' => $user->id,
+                'signers' => 0,
+                'status' => 'pending',
+            ]);
 
-
-                $petition = Petition::create([
-                    'title' => $request->get('title'),
-                    'description' => $request->get('description'),
-                    'destinatary' => $request->get('destinatary'),
-                    'category_id' => $request->get('category_id'),
-                    'user_id' => $user->id,
-                    'signers' => 0,
-                    'status' => 'pending',
-                ]);
-
-                if ($request->hasFile('image')) {
-                    $this->fileUpload($request, $petition->id);
+            if ($request->hasFile('image')) {
+                foreach ($request->file('image') as $image) {
+                    $this->fileUpload($image, $petition->id);
                 }
-
-                return response()->json(['message' => 'Petition created successfully.', 'data' => $petition], 201);
             }
+            return response()->json(['message' => 'Petition created successfully.', 'data' => $petition], 201);
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function update(Request $request, Petition $petition){
+    public function update(Request $request, Petition $petition)
+    {
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'description' => 'required',
             'destinatary' => 'required',
             'category_id' => 'required',
+            'image.*' => 'nullable|file|mimes:jpeg,png,jpg,svg',
         ]);
 
         if ($validator->fails()) {
@@ -80,26 +83,18 @@ class PetitionController extends Controller
         }
 
         try {
-            $oldFile = File::where('petition_id', $petition->id)->first();
-
             if ($request->hasFile('image')) {
-
-                if ($oldFile) {
+                $oldFiles = File::where('petition_id', $petition->id)->get();
+                foreach ($oldFiles as $oldFile) {
                     Storage::disk('public')->delete($oldFile->file_path);
-                    Storage::disk('public')->delete('assets/images/petitions/' . ltrim($oldFile->file_path, '/'));
-
                     $oldFile->delete();
                 }
 
-                $path = $request->file('image')->store('assets/images/petitions', 'public');
-                $filename = basename($path);
-
-                File::create([
-                    'name' => $filename,
-                    'file_path' => $path,
-                    'petition_id' => $petition->id
-                ]);
+                foreach ($request->file('image') as $image) {
+                    $this->fileUpload($image, $petition->id);
+                }
             }
+
 
             if (!$request->has('status')) {
                 $status = $petition->status;
@@ -121,25 +116,23 @@ class PetitionController extends Controller
         }
     }
 
-    public function destroy(Petition $petition){
-        $petition_img = File::where('petition_id', $petition->id)->first();
+    public function destroy(Petition $petition)
+    {
+        $petition_img = File::where('petition_id', $petition->id)->get();
 
-        if ($petition_img) {
-            $petition_path = public_path($petition_img->file_path);
-
-            if (file_exists($petition_path)) {
-                unlink($petition_path);
+        foreach ($petition_img as $image) {
+            if (Storage::disk('public')->exists($image->file_path)) {
+                Storage::disk('public')->delete($image->file_path);
             }
-
-            $petition_img->delete();
+            $image->delete();
         }
-
 
         $petition->delete();
         return response()->json(['message' => 'Petition deleted successfully.']);
     }
 
-    public function sign(Request $request, Petition $petition){
+    public function sign(Request $request, Petition $petition)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
@@ -152,14 +145,14 @@ class PetitionController extends Controller
 
         try {
             $user = Auth::user();
-                if ($petition->signers()->where('user_id', $user->id)->exists()) {
-                    return response()->json(['message' => 'You have already signed this petition.'], 400);
-                }
+            if ($petition->signers()->where('user_id', $user->id)->exists()) {
+                return response()->json(['message' => 'You have already signed this petition.'], 400);
+            }
 
-                $petition->signers()->attach($user->id);
+            $petition->signers()->attach($user->id);
 
-                $petition->signers = $petition->signers()->count();
-                $petition->save();
+            $petition->signers = $petition->signers()->count();
+            $petition->save();
             return response()->json(['message' => 'Petition signed successfully.']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -172,20 +165,15 @@ class PetitionController extends Controller
             $user = Auth::user();
             $petitions = $user->signPetition()->get();
         } catch (\Exception $exception) {
-           return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
         return response()->json($petitions->load(['files']));
     }
 
-    private function fileUpload(Request $request, $id)
+    private function fileUpload($file, $id)
     {
-        $path = null;
-        $filename = null;
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('assets/images/petitions', 'public');
-            $filename = basename($path);
-        }
+        $path = $file->store('assets/images/petitions', 'public');
+        $filename = basename($path);
 
         $petition = Petition::findOrFail($id);
 

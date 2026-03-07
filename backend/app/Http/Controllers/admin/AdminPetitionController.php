@@ -29,7 +29,7 @@ class AdminPetitionController extends Controller
             'description' => 'required|string',
             'destinatary' => 'required',
             'category_id' => 'required',
-            'image' => 'required|file|mimes:jpeg,png,jpg,svg',
+            'image.*' => 'required|file|mimes:jpeg,png,jpg,svg',
         ]);
 
         if ($validator->fails()) {
@@ -52,10 +52,12 @@ class AdminPetitionController extends Controller
                 ]);
 
                 if ($request->hasFile('image')) {
-                    $this->fileUpload($request, $petition->id);
+                    foreach ($request->file('image') as $image) {
+                        $this->fileUpload($image, $petition->id);
+                    }
                 }
 
-                return response()->json(['message' => 'Petition created successfully.', 'data' => $petition], 201);
+                return response()->json(['message' => 'Petition created successfully.', 'data' => $petition->load('files')], 201);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -68,6 +70,7 @@ class AdminPetitionController extends Controller
             'description' => 'required',
             'destinatary' => 'required',
             'category_id' => 'required',
+            'image.*' => 'nullable|file|mimes:jpeg,png,jpg,svg',
         ]);
 
         if ($validator->fails()) {
@@ -75,25 +78,16 @@ class AdminPetitionController extends Controller
         }
 
         try {
-            $oldFile = File::where('petition_id', $petition->id)->first();
-
             if ($request->hasFile('image')) {
-
-                if ($oldFile) {
+                $oldFiles = File::where('petition_id', $petition->id)->get();
+                foreach ($oldFiles as $oldFile) {
                     Storage::disk('public')->delete($oldFile->file_path);
-                    Storage::disk('public')->delete('assets/images/petitions/' . ltrim($oldFile->file_path, '/'));
-
                     $oldFile->delete();
                 }
 
-                $path = $request->file('image')->store('assets/images/petitions', 'public');
-                $filename = basename($path);
-
-                File::create([
-                    'name' => $filename,
-                    'file_path' => $path,
-                    'petition_id' => $petition->id
-                ]);
+                foreach ($request->file('image') as $image) {
+                   $this->fileUpload($image, $petition->id);
+                }
             }
 
             if (!$request->has('status')) {
@@ -110,14 +104,22 @@ class AdminPetitionController extends Controller
                 'status' => $status,
             ]);
 
-            return response()->json(['message' => 'Petition updated successfully.', 'data' => $petition], 200);
+            return response()->json(['message' => 'Petition updated successfully.', 'data' => $petition->load('files')], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function destroy(Petition $petition)
-    {
+    public function destroy(Petition $petition){
+        $petition_imgs = File::where('petition_id', $petition->id)->get();
+
+        foreach ($petition_imgs as $image) {
+            if (Storage::disk('public')->exists($image->file_path)) {
+                Storage::disk('public')->delete($image->file_path);
+            }
+            $image->delete();
+        }
+
         $petition->delete();
         return response()->json(['message' => 'Petition deleted successfully.']);
     }
@@ -133,15 +135,10 @@ class AdminPetitionController extends Controller
         return response()->json(['message' => 'Petition status changed successfully.' , 'data' => $petition]);
     }
 
-    private function fileUpload(Request $request, $id)
+    private function fileUpload($file, $id)
     {
-        $path = null;
-        $filename = null;
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('assets/images/petitions', 'public');
-            $filename = basename($path);
-        }
+        $path = $file->store('assets/images/petitions', 'public');
+        $filename = basename($path);
 
         $petition = Petition::findOrFail($id);
 

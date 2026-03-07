@@ -24,7 +24,7 @@ export class PetitionForm {
   save = output<any>();
 
   // El signal si es de dentro
-  selectedFile = signal<File | null>(null);
+  selectedFile = signal<File[] | null>(null);
   categories = signal<Category[]>([]);
   petition = signal<any>({});
   id = signal<number>(0);
@@ -79,9 +79,10 @@ export class PetitionForm {
 
       // Si la imagen no es nula lo agregamos al formulario (que sino sale un error de tipado)
       if (image !== null){
-        formData.append('image', image, image.name);
+        image.forEach( (file) => {
+          formData.append('image[]', file, file.name)
+        });
       }
-
       // Enviamos al padre el formData para que él llame al servicio necesario (edit o create)
       this.save.emit(formData);
 
@@ -98,8 +99,8 @@ export class PetitionForm {
   onSelectedFile(event: any){
     const input = event?.target as HTMLInputElement;
     if (input.files?.length){
-      this.selectedFile.set(input.files[0]);
-      console.log(this.selectedFile());
+      const files = Array.from(input.files);
+      this.selectedFile.set(files);
     }
   }
 

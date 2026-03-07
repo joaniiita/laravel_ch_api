@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {PetitionForm} from '../petition-form/petition-form';
 import {PetitionService} from '../../../../../shared/petitions/petition';
 import {Category} from '../../../../../models/category';
+import {AdminPetitionService} from '../../../../../shared/petitions/admin/admin-petition';
 
 @Component({
   selector: 'app-petition-create',
@@ -13,13 +14,13 @@ import {Category} from '../../../../../models/category';
   styleUrl: './petition-create.css',
 })
 export class AdminPetitionCreate {
-    private petitionService = inject(PetitionService);
+    private aPetitionService = inject(AdminPetitionService);
     private router = inject(Router);
 
     errorMsg = signal<any>(null);
 
     handleSave(formData : FormData){
-      this.petitionService.create(formData).subscribe({
+      this.aPetitionService.create(formData).subscribe({
         next: () => this.router.navigate(['/admin/petitions']),
         error: (err) => {
           console.log(err);
