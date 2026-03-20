@@ -1,14 +1,16 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, signal, WritableSignal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Category} from '../../../../models/category';
 import {CategoryRow} from '../category-row/category-row';
 import {CategoryService} from '../../../../shared/categories/category';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @Component({
   selector: 'app-category-table',
   imports: [
     CategoryRow,
-    RouterLink
+    RouterLink,
+    NgxPaginationModule
   ],
   templateUrl: './category-table.html',
   styleUrl: './category-table.css',
@@ -16,6 +18,9 @@ import {CategoryService} from '../../../../shared/categories/category';
 export class CategoryTable {
   categories = signal<Category[]>([]);
   errorMsg = signal<any>(null);
+
+  page: WritableSignal<number> = signal<number>( 1 );
+  pageSize: WritableSignal<number> = signal<number>( 2 );
 
   private categoryService = inject(CategoryService);
 

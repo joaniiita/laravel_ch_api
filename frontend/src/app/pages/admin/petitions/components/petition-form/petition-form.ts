@@ -1,4 +1,4 @@
-import {Component, effect, inject, input, InputSignal, output, signal} from '@angular/core';
+import {Component, effect, inject, input, InputSignal, OnInit, output, signal} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Category} from '../../../../../models/category';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -15,7 +15,7 @@ import {AdminPetitionService} from '../../../../../shared/petitions/admin/admin-
   templateUrl: './petition-form.html',
   styleUrl: './petition-form.css',
 })
-export class PetitionForm {
+export class PetitionForm implements OnInit{
 
   // El input. se utiliza cuando los datos vienen de fuera del componente
   mode = input.required<'create' | 'edit' | 'show'>();

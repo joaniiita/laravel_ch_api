@@ -1,6 +1,7 @@
-import {Component, inject} from '@angular/core';
+import {Component, effect, inject} from '@angular/core';
 import {AuthService} from '../../shared/auth/auth';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Search} from '../../shared/petitions/admin/search';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -16,6 +17,7 @@ export class AdminNavbar {
 
   private auth = inject(AuthService);
   private router = inject(Router);
+  protected searchService = inject(Search);
 
   protected currentUser : any | null = null;
 
@@ -25,6 +27,8 @@ export class AdminNavbar {
       this.currentUser = user;
     });
   }
+
+
 
   logout(){
     this.auth.logout().subscribe({

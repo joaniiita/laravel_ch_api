@@ -1,14 +1,15 @@
-import {Component, inject, output, signal} from '@angular/core';
+import {Component, effect, inject, output, signal, WritableSignal} from '@angular/core';
 import {PetitionService} from '../../../../shared/petitions/petition';
 import {PetitionRow} from '../petition-row/petition-row';
 import {Petition} from '../../../../models/petition';
 import {RouterLink} from '@angular/router';
 import {AdminPetitionService} from '../../../../shared/petitions/admin/admin-petition';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-petition-table',
-  imports: [PetitionRow, RouterLink],
+  imports: [PetitionRow, RouterLink, NgxPaginationModule],
   templateUrl: './petition-table.html',
   styleUrl: './petition-table.css',
   standalone: true
@@ -19,7 +20,9 @@ export class PetitionTable {
 
   petitions = signal<Petition[]>([]);
   onDelete = output<number>()
-  constructor() { }
+  page: WritableSignal<number> = signal<number>( 1 );
+  pageSize: WritableSignal<number> = signal<number>( 2 );
+
 
   ngOnInit(){
     this.getPetitions();
@@ -29,7 +32,6 @@ export class PetitionTable {
     this.adminPetitionService.index().subscribe({
       next: (data) => {
         this.petitions.set(data);
-        console.log(data);
       },
       error: (err) => console.log(err)
     })

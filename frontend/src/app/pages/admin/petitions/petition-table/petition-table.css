@@ -1,0 +1,19 @@
+/* Cambiar el color del número de página activo */
+::ng-deep .ngx-pagination .current {
+  background: #FFB64D !important;
+  border-radius: 5px;
+}
+
+/* Cambiar el color al pasar el ratón (hover) */
+::ng-deep .ngx-pagination a:hover {
+  background: #e1e1e1 !important;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+/* Ocultar el texto de "Anterior" y "Siguiente" en móviles */
+::ng-deep .ngx-pagination .pagination-previous span,
+::ng-deep .ngx-pagination .pagination-next span {
+  font-weight: bold;
+}
