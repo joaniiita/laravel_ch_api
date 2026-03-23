@@ -22,7 +22,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
     Route::get('category/{category}', [AdminCategoryController::class, 'show']);
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth:api, admin', 'prefix' => 'admin'], function () {
     Route::post('category', [AdminCategoryController::class, 'create']);
     Route::put('category/{category}', [AdminCategoryController::class, 'update']);
     Route::delete('category/{category}', [AdminCategoryController::class, 'destroy']);
@@ -33,7 +33,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('petition/{petition}', [PetitionController::class, 'show']);
 });
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'auth:api, admin'], function () {
     Route::post('petition', [PetitionController::class, 'create']);
     Route::put('petition/{petition}', [PetitionController::class, 'update']);
     Route::delete('petition/{petition}', [PetitionController::class, 'destroy']);
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('signedPetitions', [PetitionController::class, 'signedPetitions']);
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth:api, admin', 'prefix' => 'admin'], function () {
     Route::post('petition', [AdminPetitionController::class, 'create']);
     Route::put('petition/{petition}', [AdminPetitionController::class, 'update']);
     Route::delete('petition/{petition}', [AdminPetitionController::class, 'destroy']);
@@ -54,7 +54,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'admin'], function () {
     Route::get('petition/{petition}', [AdminPetitionController::class, 'show']);
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => 'auth:api, admin', 'prefix' => 'admin'], function () {
     Route::put('user/{user}', [AdminUserController::class, 'update']);
     Route::delete('user/{user}', [AdminUserController::class, 'destroy']);
     Route::get('users', [AdminUserController::class, 'index']);
